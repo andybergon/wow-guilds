@@ -69,7 +69,7 @@ def get_roster_reps():
 def main():
     members = get_roster_reps()
 
-    with open('data/korthia.json', 'w+') as f:
+    with open('../data/korthia.json', 'w+') as f:
         json.dump(members, f)
 
     from pprint import pprint
