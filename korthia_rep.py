@@ -1,22 +1,17 @@
 # https://develop.battle.net/documentation/world-of-warcraft/profile-apis
+import json
 from datetime import datetime
 
 from blizzardapi.wow.wow_profile_api import WowProfileApi as ProfileApi
-from raiderio import RaiderIO
 
 import blizzard_creds
 import defaults
+from roster import get_roster
 
 REPUTATION_FACTION_ID = 2472  # The Archivists' Codex
 ACHIEVEMENT_ID = 15069  # The Archivists' Codex
 
-rio = RaiderIO()
 profile_api = ProfileApi(client_id=blizzard_creds.CLIENT_ID, client_secret=blizzard_creds.CLIENT_SECRET)
-
-
-def get_roster(region=defaults.REGION, realm=defaults.REALM, guild=defaults.GUILD):
-    with rio:
-        rio.get_guild_roster(region=region, realm=realm, guild=guild)
 
 
 def get_rep(character_name='Berga', realm=defaults.REALM):
@@ -48,19 +43,41 @@ def get_achi_datetime(character_name='Berga', realm=defaults.REALM):
         character_name=character_name.lower()
     )
 
-    achi = list(filter(lambda a: a.get('id') == ACHIEVEMENT_ID, achis.get('achievements')))[0]
+    achis = list(filter(lambda a: a.get('id') == ACHIEVEMENT_ID, achis.get('achievements')))
 
-    ts_millis = achi.get('completed_timestamp')
+    if not achis:
+        return None
 
-    return datetime.fromtimestamp(ts_millis//1000)
+    ts_millis = achis[0].get('completed_timestamp')
+
+    return datetime.fromtimestamp(ts_millis // 1000)
+
+
+def get_roster_reps():
+    roster = get_roster()
+    for r in roster:
+        name = r.get('name')
+        rep = get_rep(name)
+        dt = get_achi_datetime(name)
+        if dt:
+            r['rep'] = rep
+            r['rep_date'] = dt.isoformat()
+
+    return roster
 
 
 def main():
-    # get_roster()
-    # rep = get_rep()
-    # print(f'{rep=}')
-    achi = get_achi_datetime()
-    print(f'{achi.isoformat()}')
+    members = get_roster_reps()
+
+    with open('data/korthia.json', 'w+') as f:
+        json.dump(members, f)
+
+    from pprint import pprint
+    members = sorted(members,
+                     key=lambda m: m.get('m+'),
+                     # key=lambda m: datetime.fromisoformat(m.get('rep_date')),
+                     reverse=True)
+    pprint(members, sort_dicts=False)
 
 
 if __name__ == '__main__':
