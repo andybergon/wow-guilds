@@ -1,4 +1,3 @@
-# https://develop.battle.net/documentation/world-of-warcraft/profile-apis
 import json
 from datetime import datetime
 
@@ -7,6 +6,8 @@ from blizzardapi.wow.wow_profile_api import WowProfileApi as ProfileApi
 import blizzard_creds
 import defaults
 from roster import get_roster
+
+FILENAME = 'data/korthia.json'
 
 REPUTATION_FACTION_ID = 2472  # The Archivists' Codex
 ACHIEVEMENT_ID = 15069  # The Archivists' Codex
@@ -58,26 +59,54 @@ def get_roster_reps():
     for r in roster:
         name = r.get('name')
         rep = get_rep(name)
+        r['rep'] = rep
+
         dt = get_achi_datetime(name)
         if dt:
-            r['rep'] = rep
             r['rep_date'] = dt.isoformat()
 
     return roster
 
 
 def main():
-    members = get_roster_reps()
+    # members = get_roster_reps()
+    # write_to_file(members)
+    members = read_from_file()
+    print_members(members)
 
-    with open('../data/korthia.json', 'w+') as f:
-        json.dump(members, f)
+
+def write_to_file(members):
+    with open(FILENAME, 'w+') as f:
+        json.dump(members, f, indent=4)
+
+
+def read_from_file():
+    with open(FILENAME) as f:
+        return json.load(f)
+
+
+def print_members(members):
+    print(f'{len(members)=}')
+    members = sorted(members,
+                     key=sort_by_rep,
+                     reverse=True)
 
     from pprint import pprint
-    members = sorted(members,
-                     key=lambda m: m.get('m+'),
-                     # key=lambda m: datetime.fromisoformat(m.get('rep_date')),
-                     reverse=True)
-    pprint(members, sort_dicts=False)
+    # pprint(members, sort_dicts=False)
+
+    for m in members:
+        print(f'{m["name"]} - {m["rep"]["raw"]} - {m.get("rep_date", None)}')
+
+
+def sort_by_rep(m):
+    achi_date = m.get('rep_date')
+
+    if achi_date:
+        rev_achi_time = datetime.max - datetime.fromisoformat(achi_date)
+    else:
+        rev_achi_time = datetime.min
+
+    return m.get('rep').get('raw'), rev_achi_time
 
 
 if __name__ == '__main__':
