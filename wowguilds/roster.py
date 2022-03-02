@@ -1,12 +1,12 @@
 from raiderio import RaiderIO
 
-import defaults
+from wowguilds import constants
 
 rio = RaiderIO()
 
 
-def get_roster(region=defaults.REGION, realm=defaults.REALM, guild=defaults.GUILD,
-               exclude_no_raid=True, exclude_no_m_plus=True):
+def get_roster(region=constants.DEFAULT_REGION, realm=constants.DEFAULT_REALM, guild=constants.DEFAULT_GUILD,
+               exclude_no_myth_raid=True, exclude_no_m_plus=True):
     with rio:
         roster = rio.get_guild_roster(
             region=region,
@@ -14,14 +14,16 @@ def get_roster(region=defaults.REGION, realm=defaults.REALM, guild=defaults.GUIL
             guild=guild
         )
 
-    roster_list = roster.get('guildRoster').get('roster')
-    roster = list(map(lambda r: to_simple_roster_member(r), roster_list))
+    roster = roster.get('guildRoster').get('roster')
+    roster = list(filter(lambda m: m.get('character').get('level') == 60, roster))
 
-    if exclude_no_raid:
-        roster = list(filter(lambda r: has_myth_raid(r), roster))
+    roster = list(map(lambda m: to_simple_roster_member(m), roster))
+
+    if exclude_no_myth_raid:
+        roster = list(filter(lambda m: has_myth_raid(m), roster))
 
     if exclude_no_m_plus:
-        roster = list(filter(lambda r: r.get('m+') > 0, roster))
+        roster = list(filter(lambda m: m.get('m+') > 0, roster))
 
     return roster
 

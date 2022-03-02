@@ -1,7 +1,7 @@
 import numpy as np
 from raiderio import RaiderIO
 
-from defaults import DIFFICULTY, FACTION, GUILD, RAID, REALM, REGION
+from defaults import MYTHIC_DIFFICULTY, ALL_FACTIONS, DEFAULT_GUILD, SOD_RAID, DEFAULT_REALM, DEFAULT_REGION
 
 
 # TODO: OTS has 2800-2700: 1, 2700-2600: 3
@@ -20,9 +20,10 @@ def get_guilds_m_buckets():
         print(f'{guild} ({count}) -> {buckets}')
 
 
-def get_guilds():
+def get_guilds(raid=SOD_RAID, difficulty=MYTHIC_DIFFICULTY,
+               region=DEFAULT_REGION, realm=DEFAULT_REALM, factions=ALL_FACTIONS):
     with RaiderIO() as rio:
-        rankings = rio.get_raid_instance_ranking(RAID, DIFFICULTY, REGION, REALM, FACTION)
+        rankings = rio.get_raid_instance_ranking(raid, difficulty, region, realm, factions)
         guilds = [g.get('guild').get('name') for g in rankings.get('raidRankings').get('rankedGuilds')]
         return guilds
 
@@ -52,9 +53,9 @@ def bucket_scores(scores):
     return buckets
 
 
-def get_m_scores(guild=GUILD):
+def get_m_scores(guild=DEFAULT_GUILD):
     with RaiderIO() as rio:
-        roster = rio.get_guild_roster(REGION, REALM, guild)
+        roster = rio.get_guild_roster(DEFAULT_REGION, DEFAULT_REALM, guild)
         roster_list = roster.get('guildRoster').get('roster')
         scores = list(sorted(filter(lambda s: s != 0, [r.get('keystoneScores').get('allScore') for r in roster_list]),
                              reverse=True))
