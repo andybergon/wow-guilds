@@ -2,6 +2,7 @@ import json
 from datetime import datetime
 
 from blizzardapi.wow.wow_profile_api import WowProfileApi as ProfileApi
+from tabulate import tabulate
 
 import blizzard_creds
 import constants
@@ -86,17 +87,22 @@ def read_from_file(filename):
         return json.load(f)
 
 
+def get_tabulate_element(m):
+    rep = m.get('rep')
+    return [m["name"], rep["raw"], f'{rep.get("value")}/{rep.get("max")}', m.get("rep_date", None)]
+
+
 def print_members(members):
-    print(f'{len(members)=}')
+    print(f'Members with rep: {len(members)}')
     members = sorted(members,
                      key=sort_by_rep,
                      reverse=True)
 
-    # pprint(members, sort_dicts=False)
-
-    for m in members:
-        rep = m["rep"]
-        print(f'{m["name"]} - {rep["raw"]} - {rep.get("value")}/{rep.get("max")} - {m.get("rep_date", None)}')
+    tabulate_list = [get_tabulate_element(m) for m in members]
+    table = tabulate(tabulate_list,
+                     headers=['Character', 'Raw Rep', 'Rep Tier Progress', 'Achievement Date'],
+                     showindex=True)
+    print(table)
 
 
 def sort_by_rep(m):
@@ -108,16 +114,3 @@ def sort_by_rep(m):
         rev_achi_time = datetime.min
 
     return m.get('rep').get('raw'), rev_achi_time
-
-
-def main(faction=constants.Faction.ENLIGHTENED, retrieve=True):
-    filename = f'data/{faction.name.lower()}.json'
-    if retrieve:
-        members = get_roster_reps(*constants.faction_to_ids[faction])
-        write_to_file(members, filename)
-    members = read_from_file(filename)
-    print_members(members)
-
-
-if __name__ == '__main__':
-    main(faction=constants.Faction.ENLIGHTENED, retrieve=True)
