@@ -92,7 +92,7 @@ def get_tabulate_element(m):
     return [m["name"], rep["raw"], f'{rep.get("value")}/{rep.get("max")}', m.get("rep_date", None)]
 
 
-def print_members(members):
+def print_and_get_table(members):
     print(f'Members with rep: {len(members)}')
     members = sorted(members,
                      key=sort_by_rep,
@@ -103,6 +103,7 @@ def print_members(members):
                      headers=['Character', 'Raw Rep', 'Rep Tier Progress', 'Achievement Date'],
                      showindex=True)
     print(table)
+    return table
 
 
 def sort_by_rep(m):
