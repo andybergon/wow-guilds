@@ -51,7 +51,7 @@ def get_achi_datetime(character_name='Berga', realm=constants.DEFAULT_REALM, ach
     return datetime.fromtimestamp(ts_millis // 1000)
 
 
-def get_roster_reps(faction_id, achi_id, exclude_no_myth_raid=False, exclude_no_m_plus=False):
+def get_roster_reps(faction_id, achievement_id, exclude_no_myth_raid=False, exclude_no_m_plus=False):
     roster = get_roster(exclude_no_myth_raid=exclude_no_myth_raid, exclude_no_m_plus=exclude_no_m_plus)
     rep_roster = []
     i = 1
@@ -60,14 +60,14 @@ def get_roster_reps(faction_id, achi_id, exclude_no_myth_raid=False, exclude_no_
         print(f'Processing: {name} ({i}/{len(roster)})')
         i += 1
 
-        rep = get_rep(name, faction_id=faction_id)
+        rep = get_rep(character_name=name, faction_id=faction_id)
         if rep:
             r['rep'] = rep
         else:
             continue
 
-        if achi_id:
-            dt = get_achi_datetime(name)
+        if achievement_id:
+            dt = get_achi_datetime(character_name=name, achievement_id=achievement_id)
             if dt:
                 r['rep_date'] = dt.isoformat()
 
@@ -120,4 +120,4 @@ def main(faction=constants.Faction.ENLIGHTENED, retrieve=True):
 
 
 if __name__ == '__main__':
-    main(faction=constants.Faction.ENLIGHTENED, retrieve=False)
+    main(faction=constants.Faction.ENLIGHTENED, retrieve=True)
