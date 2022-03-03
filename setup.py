@@ -6,6 +6,7 @@ setup(
     packages=find_packages(),
     python_requires='>=3.7, <4',
     install_requires=[
+        'numpy',
         'python-blizzardapi',
         'raiderio',
         'tabulate',
