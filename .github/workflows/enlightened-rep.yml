@@ -16,4 +16,4 @@ jobs:
         with:
           python-version: '3.8'
       - name: Refresh and log enlightened rep
-        run: python wowguilds/runners/enlightened_rep.py
+        run: python -m wowguilds.runners.enlightened_rep
