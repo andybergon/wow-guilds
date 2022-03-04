@@ -4,22 +4,21 @@ from datetime import datetime
 from blizzardapi.wow.wow_profile_api import WowProfileApi as ProfileApi
 from tabulate import tabulate
 
-import blizzard_creds
-import constants
+from blizzard_creds import CLIENT_ID, CLIENT_SECRET
+from constants import ARCHIVISTS_ACHIEVEMENT_ID, DEFAULT_REALM, DEFAULT_REGION, ENLIGHTENED_FACTION_ID, LOCALE
 from roster import get_roster
-from wowguilds.constants import ARCHIVISTS_ACHIEVEMENT_ID
 
-profile_api = ProfileApi(client_id=blizzard_creds.CLIENT_ID, client_secret=blizzard_creds.CLIENT_SECRET)
+profile_api = ProfileApi(client_id=CLIENT_ID, client_secret=CLIENT_SECRET)
 
 
-def get_rep(character_name='Berga', realm=constants.DEFAULT_REALM, faction_id=constants.ENLIGHTENED_FACTION_ID):
+def get_rep(character_name='Berga', realm=DEFAULT_REALM, faction_id=ENLIGHTENED_FACTION_ID):
     """
     Note: Retrieves all reps
     :return: {'raw': 41000, 'value': 0, 'max': 0, 'tier': 5, 'name': 'Tier 6'}
     """
     reps = profile_api.get_character_reputations_summary(
-        region=constants.DEFAULT_REGION,
-        locale=constants.LOCALE,
+        region=DEFAULT_REGION,
+        locale=LOCALE,
         realm_slug=realm.lower(),
         character_name=character_name.lower()
     )
@@ -31,13 +30,13 @@ def get_rep(character_name='Berga', realm=constants.DEFAULT_REALM, faction_id=co
         return None
 
 
-def get_achi_datetime(character_name='Berga', realm=constants.DEFAULT_REALM, achievement_id=ARCHIVISTS_ACHIEVEMENT_ID):
+def get_achi_datetime(character_name='Berga', realm=DEFAULT_REALM, achievement_id=ARCHIVISTS_ACHIEVEMENT_ID):
     """
     Note: Retrieves all achievements
     """
     achis = profile_api.get_character_achievements_summary(
-        region=constants.DEFAULT_REGION,
-        locale=constants.LOCALE,
+        region=DEFAULT_REGION,
+        locale=LOCALE,
         realm_slug=realm.lower(),
         character_name=character_name.lower()
     )
