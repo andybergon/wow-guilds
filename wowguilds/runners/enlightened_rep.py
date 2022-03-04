@@ -1,3 +1,4 @@
+import argparse
 from datetime import datetime
 
 from wowguilds import constants
@@ -10,9 +11,9 @@ def save_end_result(table, faction):
         f.write(table)
 
 
-def main(faction=constants.Faction.ENLIGHTENED, retrieve=True):
+def main(faction=constants.Faction.ENLIGHTENED, refresh_data=True):
     filename = f'data/{faction.name.lower()}.json'
-    if retrieve:
+    if refresh_data:
         members = get_roster_reps(*constants.faction_to_ids[faction])
         write_to_file(members, filename)
     members = read_from_file(filename)
@@ -20,5 +21,12 @@ def main(faction=constants.Faction.ENLIGHTENED, retrieve=True):
     save_end_result(table, faction)
 
 
+def get_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--refresh', action='store_true')
+    return parser.parse_args()
+
+
 if __name__ == '__main__':
-    main(faction=constants.Faction.ENLIGHTENED, retrieve=False)
+    args = get_args()
+    main(faction=constants.Faction.ENLIGHTENED, refresh_data=args.refresh)
