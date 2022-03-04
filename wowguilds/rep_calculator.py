@@ -4,9 +4,9 @@ from datetime import datetime
 from blizzardapi.wow.wow_profile_api import WowProfileApi as ProfileApi
 from tabulate import tabulate
 
-from blizzard_creds import CLIENT_ID, CLIENT_SECRET
-from constants import ARCHIVISTS_ACHIEVEMENT_ID, DEFAULT_REALM, DEFAULT_REGION, ENLIGHTENED_FACTION_ID, LOCALE
-from roster import get_roster
+from .blizzard_creds import CLIENT_ID, CLIENT_SECRET
+from .constants import ARCHIVISTS_ACHIEVEMENT_ID, DEFAULT_REALM, DEFAULT_REGION, ENLIGHTENED_FACTION_ID, LOCALE
+from .roster import get_roster
 
 profile_api = ProfileApi(client_id=CLIENT_ID, client_secret=CLIENT_SECRET)
 
