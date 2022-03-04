@@ -1,4 +1,3 @@
-import numpy as np
 from raiderio import RaiderIO
 
 from constants import ALL_FACTIONS, DEFAULT_GUILD, DEFAULT_REALM, DEFAULT_REGION, MYTHIC_DIFFICULTY, SOD_RAID
