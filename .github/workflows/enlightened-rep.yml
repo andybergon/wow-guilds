@@ -17,7 +17,7 @@ jobs:
           python-version: '3.8'
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
+          python -m pip install --upgrade pip wheel
           pip install .
       - name: Refresh and log enlightened rep
         run: python -m wowguilds.runners.enlightened_rep
