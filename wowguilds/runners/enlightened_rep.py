@@ -11,7 +11,7 @@ def save_end_result(table, faction):
         f.write(table)
 
 
-def main(faction=constants.Faction.ENLIGHTENED, refresh_data=True):
+def run(faction=constants.Faction.ENLIGHTENED, refresh_data=True):
     filename = f'data/{faction.name.lower()}.json'
     if refresh_data:
         members = get_roster_reps(*constants.faction_to_ids[faction])
@@ -27,6 +27,10 @@ def get_args():
     return parser.parse_args()
 
 
-if __name__ == '__main__':
+def main():
     args = get_args()
-    main(faction=constants.Faction.ENLIGHTENED, refresh_data=args.refresh)
+    run(faction=constants.Faction.ENLIGHTENED, refresh_data=args.refresh)
+
+
+if __name__ == '__main__':
+    main()

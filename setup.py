@@ -12,6 +12,6 @@ setup(
         'tabulate',
     ],
     entry_points={
-        'console_scripts': ['enlightened-rep=wowguilds.runners.enlightened_rep']
+        'console_scripts': ['enlightened-rep=wowguilds.runners.enlightened_rep:main']
     },
 )
