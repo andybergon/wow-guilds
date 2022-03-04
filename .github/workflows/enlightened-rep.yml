@@ -10,4 +10,4 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Refresh and log enlightened rep
-        run: echo enlightened rep test
+        run: python wowguilds/runners/enlightened-rep.py
