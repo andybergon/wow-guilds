@@ -1,11 +1,11 @@
 from raiderio import RaiderIO
 
-from wowguilds import constants
+from wowguilds.constants import DEFAULT_GUILD, DEFAULT_REALM, DEFAULT_REGION
 
 rio = RaiderIO()
 
 
-def get_roster(region=constants.DEFAULT_REGION, realm=constants.DEFAULT_REALM, guild=constants.DEFAULT_GUILD,
+def get_roster(region=DEFAULT_REGION, realm=DEFAULT_REALM, guild=DEFAULT_GUILD,
                exclude_no_myth_raid=True, exclude_no_m_plus=True):
     with rio:
         roster = rio.get_guild_roster(

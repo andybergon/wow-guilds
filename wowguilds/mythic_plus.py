@@ -1,7 +1,7 @@
 import numpy as np
 from raiderio import RaiderIO
 
-from defaults import MYTHIC_DIFFICULTY, ALL_FACTIONS, DEFAULT_GUILD, SOD_RAID, DEFAULT_REALM, DEFAULT_REGION
+from constants import ALL_FACTIONS, DEFAULT_GUILD, DEFAULT_REALM, DEFAULT_REGION, MYTHIC_DIFFICULTY, SOD_RAID
 
 
 # TODO: OTS has 2800-2700: 1, 2700-2600: 3
@@ -39,8 +39,9 @@ def bucket_scores(scores):
     step = 100
     maximum = int(max(scores))
     bins = range(2000, maximum, step)
-    # TODO: fix
-    histogram = np.histogram(scores, bins)  # ([4,7,6], [2000,2100,2200])
+    # TODO: fix, maybe without numpy
+    # histogram = np.histogram(scores, bins)  # ([4,7,6], [2000,2100,2200])
+    histogram = []
     # print(f'{histogram=}')
     buckets = {f'{histogram[1][i[0]] + step}-{histogram[1][i[0]]}': histogram[0][i[0]] for i in
                enumerate(histogram[0])}  # {"2000": 12, "2100": 10}
