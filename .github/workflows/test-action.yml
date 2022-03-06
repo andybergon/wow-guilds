@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Test
-        run: |
-          CLIENT_ID=${{ secrets.CLIENT_ID }}
-          CLIENT_SECRET=${{ secrets.CLIENT_SECRET }}
-          python -c "import os; print(os.environ['CLIENT_ID'][:3] + ' - ' + os.environ['CLIENT_SECRET'][:3])"
+        env:
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+        run: python -c "import os; print(os.environ['CLIENT_ID'][:3] + ' - ' + os.environ['CLIENT_SECRET'][:3])"
