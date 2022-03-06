@@ -80,9 +80,7 @@ def get_roster_reps(guild_coordinates, faction_id, achievement_id, exclude_no_my
 
 
 def write_to_file(members, filename):
-    path = Path(filename)
-    if not path.exists():
-        path.touch(exist_ok=True)
+    Path(filename).parent.mkdir(parents=True, exist_ok=True)
 
     with open(filename, 'w+') as f:
         json.dump(members, f, indent=4)

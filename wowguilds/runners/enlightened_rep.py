@@ -1,5 +1,6 @@
 import argparse
 from datetime import datetime
+from pathlib import Path
 
 from wowguilds import constants
 from wowguilds.constants import DEFAULT_GUILD_COORDINATES
@@ -7,8 +8,11 @@ from wowguilds.rep_calculator import get_roster_reps, print_and_get_table, read_
 
 
 def save_end_result(table, guild_coord, faction):
-    filename = f'data/{faction.name.lower()}-{guild_coord.get("region")}-{guild_coord.get("realm")}-{guild_coord.get("guild")}-{datetime.utcnow().isoformat()}.txt'.lower()
+    filename = f'data1/{faction.name.lower()}-{guild_coord.get("region")}-{guild_coord.get("realm")}-{guild_coord.get("guild")}-{datetime.utcnow().isoformat()}.txt'.lower()
     print(f'Saving results in: {filename}')
+
+    Path(filename).parent.mkdir(parents=True, exist_ok=True)
+
     with open(filename, 'w+') as f:
         f.write(table)
 
