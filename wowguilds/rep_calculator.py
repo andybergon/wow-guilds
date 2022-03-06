@@ -1,5 +1,6 @@
 import json
 from datetime import datetime
+from pathlib import Path
 
 from blizzardapi.wow.wow_profile_api import WowProfileApi as ProfileApi
 from tabulate import tabulate
@@ -52,7 +53,9 @@ def get_achi_datetime(character_name='Berga', realm=DEFAULT_REALM, achievement_i
 
 
 def get_roster_reps(guild_coordinates, faction_id, achievement_id, exclude_no_myth_raid=False, exclude_no_m_plus=False):
-    roster = get_roster(guild_coordinates, exclude_no_myth_raid=exclude_no_myth_raid, exclude_no_m_plus=exclude_no_m_plus)
+    roster = get_roster(guild_coordinates,
+                        exclude_no_myth_raid=exclude_no_myth_raid,
+                        exclude_no_m_plus=exclude_no_m_plus)
     rep_roster = []
     i = 1
     for r in roster:
@@ -77,6 +80,10 @@ def get_roster_reps(guild_coordinates, faction_id, achievement_id, exclude_no_my
 
 
 def write_to_file(members, filename):
+    path = Path(filename)
+    if not path.exists():
+        path.touch(exist_ok=True)
+
     with open(filename, 'w+') as f:
         json.dump(members, f, indent=4)
 
