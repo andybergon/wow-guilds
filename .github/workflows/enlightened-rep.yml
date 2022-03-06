@@ -20,4 +20,7 @@ jobs:
           python -m pip install --upgrade pip wheel
           pip install .
       - name: Refresh and log enlightened rep
+        env:
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
         run: python -m wowguilds.runners.enlightened_rep --refresh
