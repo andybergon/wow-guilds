@@ -1,0 +1,12 @@
+name: test-action
+
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  test-action:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test
+        run: python -c "import os; print(os.environ['CLIENT_ID'][:3] + ' - ' + os.environ['CLIENT_SECRET'][:3])"
