@@ -20,4 +20,4 @@ jobs:
           python -m pip install --upgrade pip wheel
           pip install .
       - name: Refresh and log enlightened rep
-        run: python -m wowguilds.runners.enlightened_rep
+        run: python -m wowguilds.runners.enlightened_rep --refresh
