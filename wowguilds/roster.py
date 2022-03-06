@@ -1,17 +1,14 @@
 from raiderio import RaiderIO
 
-from wowguilds.constants import DEFAULT_GUILD, DEFAULT_REALM, DEFAULT_REGION
-
 rio = RaiderIO()
 
 
-def get_roster(region=DEFAULT_REGION, realm=DEFAULT_REALM, guild=DEFAULT_GUILD,
-               exclude_no_myth_raid=True, exclude_no_m_plus=True):
+def get_roster(guild_coordinates, exclude_no_myth_raid=True, exclude_no_m_plus=True):
     with rio:
         roster = rio.get_guild_roster(
-            region=region,
-            realm=realm,
-            guild=guild
+            region=guild_coordinates.get('region'),
+            realm=guild_coordinates.get('realm'),
+            guild=guild_coordinates.get('guild')
         )
 
     roster = roster.get('guildRoster').get('roster')

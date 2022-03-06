@@ -51,8 +51,8 @@ def get_achi_datetime(character_name='Berga', realm=DEFAULT_REALM, achievement_i
     return datetime.fromtimestamp(ts_millis // 1000)
 
 
-def get_roster_reps(faction_id, achievement_id, exclude_no_myth_raid=False, exclude_no_m_plus=False):
-    roster = get_roster(exclude_no_myth_raid=exclude_no_myth_raid, exclude_no_m_plus=exclude_no_m_plus)
+def get_roster_reps(guild_coordinates, faction_id, achievement_id, exclude_no_myth_raid=False, exclude_no_m_plus=False):
+    roster = get_roster(guild_coordinates, exclude_no_myth_raid=exclude_no_myth_raid, exclude_no_m_plus=exclude_no_m_plus)
     rep_roster = []
     i = 1
     for r in roster:
