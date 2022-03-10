@@ -1,8 +1,13 @@
 name: enlightened-rep
 
 on:
-  # Allows you to run this workflow manually from the Actions tab
+  # Allows you to run this workflow manually from the Actions tab. https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_dispatch
   workflow_dispatch:
+    inputs:
+      guild:
+        type: string
+        required: true
+        default: IgnorHunters
   push:
     branches:
       - main
@@ -23,4 +28,4 @@ jobs:
         env:
           CLIENT_ID: ${{ secrets.CLIENT_ID }}
           CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
-        run: python -m wowguilds.runners.enlightened_rep --refresh
+        run: python -m wowguilds.runners.enlightened_rep --refresh --guild ${{ inputs.guild }}
