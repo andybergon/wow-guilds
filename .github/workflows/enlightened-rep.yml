@@ -2,6 +2,12 @@ name: enlightened-rep
 
 on:
   # Allows you to run this workflow manually from the Actions tab. https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_dispatch
+  workflow_dispatch:
+    inputs:
+      guild:
+        type: string
+        required: true
+        default: IgnorHunters
   workflow_call:
     inputs:
       guild:
