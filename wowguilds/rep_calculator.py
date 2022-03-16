@@ -105,7 +105,7 @@ def print_and_get_table(members):
     tabulate_list = [get_tabulate_element(m) for m in members]
     table = tabulate(tabulate_list,
                      headers=['Character', 'Raw Rep', 'Rep Tier Progress', 'Achievement Date'],
-                     showindex=True)
+                     showindex=range(1, len(members) + 1))
     print(table)
     return table
 
