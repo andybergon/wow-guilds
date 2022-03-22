@@ -9,6 +9,8 @@ setup(
         'numpy',
         'python-blizzardapi',
         'raiderio',
+        'requests',
+        'selenium',
         'tabulate',
     ],
     entry_points={

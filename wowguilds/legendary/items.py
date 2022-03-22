@@ -12,3 +12,6 @@ class Item:
 @dataclass
 class LegendaryBaseItem(Item):
     rank: LegendaryRank
+
+
+SPECTRAL_FLASK_OF_POWER = Item('Spectral Flask of Power', 171276)
