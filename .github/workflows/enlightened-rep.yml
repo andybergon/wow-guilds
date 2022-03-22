@@ -1,16 +1,29 @@
 name: enlightened-rep
 
 env:
+  DEFAULT_REGION: eu
+  DEFAULT_REALM: Nemesis
   DEFAULT_GUILD: IgnorHunters
 
 on:
   # Allows you to run this workflow manually from the Actions tab. https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_dispatch
   workflow_dispatch:
     inputs:
+      region:
+        type: string
+        required: true
+        default: eu
+        description: Region (eu/na)
+      realm:
+        type: string
+        required: true
+        default: Nemesis
+        description: Realm
       guild:
         type: string
         required: true
         default: IgnorHunters
+        description: Guild
   schedule:
     - cron: '0 6 * * *'
 

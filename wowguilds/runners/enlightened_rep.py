@@ -29,10 +29,10 @@ def run(rep_faction=constants.Faction.ENLIGHTENED, guild_coordinates=DEFAULT_GUI
 
 def get_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--refresh', action='store_true')
     parser.add_argument('--region', default='eu')
     parser.add_argument('--realm', default='Nemesis')
     parser.add_argument('--guild', default='IgnorHunters')
+    parser.add_argument('--refresh', action='store_true')
     return parser.parse_args()
 
 
