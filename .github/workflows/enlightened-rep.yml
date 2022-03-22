@@ -43,4 +43,9 @@ jobs:
         env:
           CLIENT_ID: ${{ secrets.CLIENT_ID }}
           CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
-        run: python -m wowguilds.runners.enlightened_rep --refresh --guild '${{ github.event.inputs.guild || env.DEFAULT_GUILD }}'
+        run: |
+        python -m wowguilds.runners.enlightened_rep
+        --region '${{ github.event.inputs.region || env.DEFAULT_REGION }}'
+        --realm '${{ github.event.inputs.realm || env.DEFAULT_REALM }}'
+        --guild '${{ github.event.inputs.guild || env.DEFAULT_GUILD }}'
+        --refresh
