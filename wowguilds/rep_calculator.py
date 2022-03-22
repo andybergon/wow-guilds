@@ -12,13 +12,13 @@ from .roster import get_roster
 profile_api = ProfileApi(client_id=CLIENT_ID, client_secret=CLIENT_SECRET)
 
 
-def get_rep(character_name='Berga', realm=DEFAULT_REALM, faction_id=ENLIGHTENED_FACTION_ID):
+def get_character_rep(region, realm, character_name, faction_id=ENLIGHTENED_FACTION_ID):
     """
     Note: Retrieves all reps
     :return: {'raw': 41000, 'value': 0, 'max': 0, 'tier': 5, 'name': 'Tier 6'}
     """
     reps = profile_api.get_character_reputations_summary(
-        region=DEFAULT_REGION,
+        region=region.lower(),
         locale=LOCALE,
         realm_slug=realm.lower(),
         character_name=character_name.lower()
@@ -35,14 +35,17 @@ def get_achi_datetime(character_name='Berga', realm=DEFAULT_REALM, achievement_i
     """
     Note: Retrieves all achievements
     """
-    achis = profile_api.get_character_achievements_summary(
+    achis_res = profile_api.get_character_achievements_summary(
         region=DEFAULT_REGION,
         locale=LOCALE,
         realm_slug=realm.lower(),
         character_name=character_name.lower()
     )
 
-    achis = list(filter(lambda a: a.get('id') == achievement_id, achis.get('achievements')))
+    if achis_res.get('code') in [404]:
+        return None
+
+    achis = list(filter(lambda a: a.get('id') == achievement_id, achis_res.get('achievements')))
 
     if not achis:
         return None
@@ -63,7 +66,8 @@ def get_roster_reps(guild_coordinates, faction_id, achievement_id, exclude_no_my
         print(f'Processing: {name} ({i}/{len(roster)})')
         i += 1
 
-        rep = get_rep(character_name=name, faction_id=faction_id)
+        rep = get_character_rep(region=guild_coordinates.region, realm=guild_coordinates.realm,
+                                character_name=name, faction_id=faction_id)
         if rep:
             r['rep'] = rep
         else:

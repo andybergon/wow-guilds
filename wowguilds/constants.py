@@ -1,12 +1,13 @@
 # RaiderIO
 from enum import Enum
 
+from wowguilds.guild_coordinates import GuildCoordinates
+
 DEFAULT_REGION = 'eu'
 DEFAULT_REALM = 'nemesis'
 DEFAULT_GUILD = 'IgnorHunters'
-DEFAULT_GUILD_COORDINATES = {
-    'region': DEFAULT_REGION, 'realm': DEFAULT_REALM, 'guild': DEFAULT_GUILD
-}
+DEFAULT_GUILD_COORDINATES = GuildCoordinates(region=DEFAULT_REGION, realm=DEFAULT_REALM, guild=DEFAULT_GUILD)
+
 SOD_RAID = 'sanctum-of-domination'
 SFO_RAID = 'sepulcher-of-the-first-ones'
 MYTHIC_DIFFICULTY = 'mythic'

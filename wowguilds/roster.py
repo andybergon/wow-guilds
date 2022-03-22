@@ -1,14 +1,20 @@
 from raiderio import RaiderIO
 
+from wowguilds.guild_coordinates import GuildCoordinates
+
 rio = RaiderIO()
 
 
-def get_roster(guild_coordinates, exclude_no_myth_raid=True, exclude_no_m_plus=True):
+def get_roster(guild_coordinates: GuildCoordinates, exclude_no_myth_raid=True, exclude_no_m_plus=True):
+    """
+    realm: kebab-case (TarrenMill -> tarren-mill)
+    guild: encoded (For Science -> For%20Science)
+    """
     with rio:
         roster = rio.get_guild_roster(
-            region=guild_coordinates.get('region'),
-            realm=guild_coordinates.get('realm'),
-            guild=guild_coordinates.get('guild')
+            region=guild_coordinates.region,
+            realm=guild_coordinates.realm,
+            guild=guild_coordinates.guild,
         )
 
     roster = roster.get('guildRoster').get('roster')
